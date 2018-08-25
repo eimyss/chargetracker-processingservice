@@ -1,12 +1,20 @@
 package de.eimantas.processing.entities.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import de.eimantas.processing.data.processing.Deserializer.CustomLBigDecimalDeserializer;
+import de.eimantas.processing.data.processing.Deserializer.CustomLocalDateDeSerializer;
+import de.eimantas.processing.data.processing.Deserializer.CustomLocalDateSerializer;
 import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.time.Instant;
+import java.time.LocalDate;
 
 
 @AllArgsConstructor
@@ -20,14 +28,22 @@ public class ExpenseDTO {
         private
         String name;
         private String ort;
+        private String purpose;
         Long userId;
-        private Instant createDate;
+        @JsonDeserialize(using = CustomLocalDateDeSerializer.class)
+        @JsonSerialize(using = CustomLocalDateSerializer.class)
+        private LocalDate createDate;
+        @JsonDeserialize(using = CustomLocalDateDeSerializer.class)
+        @JsonSerialize(using = CustomLocalDateSerializer.class)
+        private LocalDate bookingDate;
         private boolean expensed;
         private boolean expensable;
         private boolean valid;
         private boolean periodic;
         Long accountId;
-        private BigDecimal betrag;
+        @JsonDeserialize(using = CustomLBigDecimalDeserializer.class)
+        private BigDecimal amount;
+        private String currency;
         private String category;
     }
 
