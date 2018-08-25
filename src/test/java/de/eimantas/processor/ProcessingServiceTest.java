@@ -34,22 +34,21 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 public class ProcessingServiceTest {
-	private final org.slf4j.Logger logger = LoggerFactory.getLogger(this.getClass());
+    private final org.slf4j.Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	@Inject
-	private DataProcessor dataProcessor;
+    @Inject
+    private DataProcessor dataProcessor;
 
-	private MockMvc mockMvc;
+    private MockMvc mockMvc;
 
-	@Autowired
-	private WebApplicationContext webApplicationContext;
-
+    @Autowired
+    private WebApplicationContext webApplicationContext;
 
 
     @Before
-	public void setup() throws Exception {
+    public void setup() throws Exception {
 
-		this.mockMvc = webAppContextSetup(webApplicationContext).build();
+        this.mockMvc = webAppContextSetup(webApplicationContext).build();
     }
 
 
@@ -57,26 +56,26 @@ public class ProcessingServiceTest {
     public void dateFormatParse() throws Exception {
 
 
-  String date = "24.08.2018";
-  SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy");
+        String date = "24.08.2018";
+        SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy");
 
-  Date datum = df.parse(date);
+        Date datum = df.parse(date);
 
 
         assertThat(datum).isNotNull();
-        logger.info("Date: " +datum.toString());
+        logger.info("Date: " + datum.toString());
 
     }
 
-	@Test
-	public void testReadData() throws Exception {
+    @Test
+    public void testReadData() throws Exception {
 
-    	List<ExpenseDTO> dtos = dataProcessor.loadObjectList(ExpenseDTO.class, "data.csv");
-    	
+        List<ExpenseDTO> dtos = dataProcessor.loadObjectList(ExpenseDTO.class, "data.csv");
+
         assertThat(dtos).isNotNull();
-		logger.info("size: " +dtos.size());
+        logger.info("size: " + dtos.size());
 
-	}
+    }
 
 
 }
