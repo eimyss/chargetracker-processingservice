@@ -7,20 +7,6 @@ keycloak:
 spring:
   application:
     name: expenses-processing-server
-  datasource:
-    url: jdbc:mysql://192.168.123.157:3306/expenses?useSSL=false
-    username: spring
-    password: expenses
-    driverClassName: com.mysql.jdbc.Driver
-  profiles: prod
-  jpa:
-    hibernate:
-      ddl-auto: update
-    properties:
-      hibernate:
-        show_sql: false
-        use_sql_comments: false
-        format_sql: false
 eureka:
   client:
     serviceUrl:

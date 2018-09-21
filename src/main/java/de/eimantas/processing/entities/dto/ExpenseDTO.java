@@ -14,6 +14,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.LocalDate;
 
 
@@ -30,18 +31,14 @@ public class ExpenseDTO {
         private String ort;
         private String purpose;
         Long userId;
-        @JsonDeserialize(using = CustomLocalDateDeSerializer.class)
-        @JsonSerialize(using = CustomLocalDateSerializer.class)
-        private LocalDate createDate;
-        @JsonDeserialize(using = CustomLocalDateDeSerializer.class)
-        @JsonSerialize(using = CustomLocalDateSerializer.class)
+        private Instant createDate;
         private LocalDate bookingDate;
         private boolean expensed;
         private boolean expensable;
         private boolean valid;
         private boolean periodic;
         Long accountId;
-        @JsonDeserialize(using = CustomLBigDecimalDeserializer.class)
+     //   @JsonDeserialize(using = CustomLBigDecimalDeserializer.class)
         private BigDecimal amount;
         private String currency;
         private String category;
