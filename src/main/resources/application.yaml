@@ -1,3 +1,23 @@
 spring:
+  rabbitmq:
+    host: 192.168.123.176
+    port: 5672
   application:
     name: expenses-processing-server
+  cloud:
+    stream:
+      bindings:
+        output:
+          destination: orders-in
+        input:
+          destination: orders-out
+          group: account
+      rabbit:
+        bindings:
+          output:
+            producer:
+              exchangeType: direct
+              routingKeyExpression: '"#"'
+subscriber:
+  routingKey: expenses.#
+  queue: orderServiceQueue

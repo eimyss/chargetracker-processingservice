@@ -6,6 +6,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.stream.annotation.EnableBinding;
+import org.springframework.cloud.stream.messaging.Processor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.Ordered;
 import org.springframework.security.data.repository.query.SecurityEvaluationContextExtension;
@@ -18,6 +20,7 @@ import java.util.Collections;
 
 @EnableDiscoveryClient
 @SpringBootApplication
+@EnableBinding(Processor.class)
 public class ProceessingBackendApplication {
 
 	public static void main(String[] args) {

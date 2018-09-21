@@ -45,5 +45,7 @@ public class ExpenseDTO {
         private BigDecimal amount;
         private String currency;
         private String category;
+        private boolean processed;
+        private LocalDate processedDate;
     }
 
