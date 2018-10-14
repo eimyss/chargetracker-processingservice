@@ -29,3 +29,9 @@ logging:
     org.springframework.security: INFO
 server:
   port: 8190
+feign:
+  client:
+    config:
+      service:
+        booking: expenses-service-int
+        project: account-service-int

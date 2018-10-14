@@ -9,9 +9,15 @@ spring:
     name: expenses-processing-server
 eureka:
   client:
-    enabled: false
+    enabled: true
 log4j:
   logger:
     org:
       hibernate:
         type: TRACE
+feign:
+  client:
+    config:
+      service:
+        booking: expenses-service-int
+        project: account-service-int
