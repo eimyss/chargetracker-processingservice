@@ -110,4 +110,15 @@ public class BookingServiceTest {
   }
 
 
+  @Test
+  public void testSendProcessedMessage() throws Exception {
+
+    JSONObject json = new JSONObject();
+    json.put("booking_id", 21);
+    json.put("Amount", BigDecimal.TEN);
+    bookingService.sendNotification(json);
+
+  }
+
+
 }

@@ -3,6 +3,7 @@ package de.eimantas.processing.services;
 
 import de.eimantas.processing.clients.BookingsClient;
 import de.eimantas.processing.clients.ProjectsClient;
+import de.eimantas.processing.messaging.BookingSender;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -28,6 +29,9 @@ public class BookingService {
   @Inject
   ProjectsClient projectsClient;
 
+  @Inject
+  BookingSender bookingSender;
+
   private static final Logger logger = LoggerFactory.getLogger(BookingService.class);
 
   // that fucking formatter will haunt me for a long time....
@@ -48,11 +52,25 @@ public class BookingService {
     logger.info("getting rate for project: " + projectId);
     BigDecimal rate = getRateFromProject(projectId);
     logger.info("rate is: " + rate);
-
     BigDecimal betrag = calculateAmount(minutes, rate);
-
     logger.info("betrag is: " + betrag);
 
+    try {
+      logger.debug("creating json");
+      JSONObject json = new JSONObject();
+      json.put("booking_id", message);
+      json.put("Amount", betrag);
+      sendNotification(json);
+    } catch (JSONException e) {
+      e.printStackTrace();
+      logger.error("processed booking");
+    }
+
+  }
+
+
+  public void sendNotification(JSONObject json) throws JSONException {
+    bookingSender.sendProcessedNotification(json);
   }
 
   public BigDecimal calculateAmount(long minutes, BigDecimal rate) {
