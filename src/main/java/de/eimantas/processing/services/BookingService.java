@@ -48,7 +48,6 @@ public class BookingService {
 
     long minutes = calculateHours(booking);
     int projectId = getProjectId(booking);
-
     logger.info("getting rate for project: " + projectId);
     JSONObject projectInfo = getInfoFromProject(projectId);
     BigDecimal rate = getRate(projectInfo);
@@ -57,12 +56,15 @@ public class BookingService {
     logger.info("ref accID is: " + accountID);
     BigDecimal betrag = calculateAmount(minutes, rate);
     logger.info("betrag is: " + betrag);
+    String userId = getUserId(booking);
+    logger.info("userId is: " + userId);
 
     try {
       logger.debug("creating json");
       JSONObject json = new JSONObject();
       json.put("booking_id", message);
-      json.put("refAccountId",accountID);
+      json.put("UserId", userId);
+      json.put("refAccountId", accountID);
       json.put("Amount", betrag);
       sendNotification(json);
     } catch (JSONException e) {
@@ -70,6 +72,19 @@ public class BookingService {
       logger.error("processed booking");
     }
 
+  }
+
+  private String getUserId(JSONObject booking) {
+    try {
+      String userId = booking.getString("userId");
+      logger.info("Project User ID is: " + userId);
+
+      return userId;
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
+
+    return "";
   }
 
   private int getAccountId(JSONObject projectInfo) {
