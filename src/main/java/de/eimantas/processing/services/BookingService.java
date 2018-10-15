@@ -50,8 +50,11 @@ public class BookingService {
     int projectId = getProjectId(booking);
 
     logger.info("getting rate for project: " + projectId);
-    BigDecimal rate = getRateFromProject(projectId);
+    JSONObject projectInfo = getInfoFromProject(projectId);
+    BigDecimal rate = getRate(projectInfo);
     logger.info("rate is: " + rate);
+    int accountID = getAccountId(projectInfo);
+    logger.info("ref accID is: " + accountID);
     BigDecimal betrag = calculateAmount(minutes, rate);
     logger.info("betrag is: " + betrag);
 
@@ -59,6 +62,7 @@ public class BookingService {
       logger.debug("creating json");
       JSONObject json = new JSONObject();
       json.put("booking_id", message);
+      json.put("refAccountId",accountID);
       json.put("Amount", betrag);
       sendNotification(json);
     } catch (JSONException e) {
@@ -66,6 +70,34 @@ public class BookingService {
       logger.error("processed booking");
     }
 
+  }
+
+  private int getAccountId(JSONObject projectInfo) {
+
+    try {
+      int refAccountId = projectInfo.getInt("refBankAccountId");
+      logger.info("Project ref acc ID is: " + refAccountId);
+
+      return refAccountId;
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
+
+    return 0;
+  }
+
+  private BigDecimal getRate(JSONObject projectInfo) {
+    try {
+
+      BigDecimal rate = new BigDecimal(projectInfo.getString("rate"));
+      logger.info("Project rate is: " + rate);
+
+      return rate;
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
+
+    return BigDecimal.ZERO;
   }
 
 
@@ -81,7 +113,7 @@ public class BookingService {
     return ratePerMinute.multiply(BigDecimal.valueOf(minutes)).setScale(2, RoundingMode.HALF_UP);
   }
 
-  public BigDecimal getRateFromProject(int projectId) {
+  public JSONObject getInfoFromProject(int projectId) {
 
     logger.info("receiving rate for project id: " + projectId);
     ResponseEntity response = projectsClient.getProject(projectId);
@@ -91,17 +123,8 @@ public class BookingService {
     JSONObject json = new JSONObject((LinkedHashMap) response.getBody());
     logger.info(json.toString());
 
-    try {
+    return json;
 
-      BigDecimal rate = new BigDecimal(json.getString("rate"));
-      logger.info("Project rate is: " + rate);
-
-      return rate;
-    } catch (JSONException e) {
-      e.printStackTrace();
-    }
-
-    return BigDecimal.ZERO;
   }
 
 
