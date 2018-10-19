@@ -7,6 +7,11 @@ keycloak:
 spring:
   application:
     name: expenses-processing-server
+  datasource:
+    url: jdbc:mysql://192.168.123.157:3306/processing?useSSL=false
+    username: spring
+    password: expenses
+    driverClassName: com.mysql.jdbc.Driver
 eureka:
   client:
     serviceUrl:
@@ -24,3 +29,10 @@ eureka:
     healthCheckUrlPath: /health
 logging:
   file: myapplication.log
+feign:
+  client:
+    config:
+      service:
+        booking: expenses-service
+        project: account-service
+        expenses: expenses-service
