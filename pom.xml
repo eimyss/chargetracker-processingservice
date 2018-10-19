@@ -9,7 +9,7 @@
     <version>1.0-SNAPSHOT</version>
 
     <name>backend-processing</name>
-    <description>Processing Part for backend</description>
+    <description>Processing Part for backend services</description>
 
 
     <parent>
