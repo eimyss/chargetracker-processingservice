@@ -49,6 +49,7 @@ public class SecurityUtils {
       parser = new JSONObject(getJsonString());
       return parser.getString("access_token");
     } catch (Exception e) {
+      logger.warn("cannot parse token", e);
       e.printStackTrace();
       return "error";
     }

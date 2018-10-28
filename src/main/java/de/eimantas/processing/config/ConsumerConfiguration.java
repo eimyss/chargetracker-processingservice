@@ -17,25 +17,33 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ConsumerConfiguration {
 
-  @Value("${subscriber.queue}")
-  private String queueName;
 
-  @Value("${subscriber.routingKey}")
+  @Value("${processing.messaging.subscriber.routingKey}")
   private String routingKey;
+
+  @Value("${processing.messaging.exchange}")
+  private String eventexchange;
+
+  @Value("${processing.messaging.orderServiceQueueName}")
+  private String orderQueue;
+
+  @Value("${processing.messaging.bookingServiceQueueName}")
+  private String bookingQueue;
+
 
   @Bean
   public TopicExchange eventExchange() {
-    return new TopicExchange("eventExchange");
+    return new TopicExchange(eventexchange);
   }
 
   @Bean
   public Queue queue() {
-    return new Queue("orderServiceQueue");
+    return new Queue(orderQueue);
   }
 
   @Bean
   public Queue bookingQueue() {
-    return new Queue("bookingServiceQueue");
+    return new Queue(bookingQueue);
   }
 
 
@@ -79,10 +87,10 @@ public class ConsumerConfiguration {
 
   @Bean
   SimpleMessageListenerContainer container(ConnectionFactory connectionFactory,
-                                           @Qualifier("listenerAdapter")MessageListenerAdapter listenerAdapter) {
+                                           @Qualifier("listenerAdapter") MessageListenerAdapter listenerAdapter) {
     SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
     container.setConnectionFactory(connectionFactory);
-    container.setQueueNames(queueName);
+    container.setQueueNames(orderQueue);
     container.setMessageListener(listenerAdapter);
     return container;
   }
@@ -92,7 +100,7 @@ public class ConsumerConfiguration {
                                                   @Qualifier("bookingListenerAdapter") MessageListenerAdapter listenerAdapter) {
     SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
     container.setConnectionFactory(connectionFactory);
-    container.setQueueNames("bookingServiceQueue");
+    container.setQueueNames(bookingQueue);
     container.setMessageListener(listenerAdapter);
     return container;
   }

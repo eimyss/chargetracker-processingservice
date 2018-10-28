@@ -1,3 +1,6 @@
+keycloak:
+  realm: expenses
+  resource: expenses-app
 spring:
   application:
     name: expenses-processing-server
@@ -30,3 +33,10 @@ feign:
         booking: expenses-service
         project: account-service
         expenses: expenses-service
+processing:
+  messaging:
+    orderServiceQueueName: orderServiceQueue
+    bookingServiceQueueName: bookingServiceQueue
+    exchange: eventExchange
+    subscriber:
+      routingKey: expenses.#
