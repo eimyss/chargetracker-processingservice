@@ -28,7 +28,6 @@ public class TransactionSender {
 
 
   public void sendProcessedNotification(String expense) {
-    // ... do some database stuff
     String routingKey = "transaction.processed";
     logger.info("Sending to exchange: " + exchange.getName() + " with message: " + expense);
     rabbitTemplate.convertAndSend(exchange.getName(), routingKey, expense);

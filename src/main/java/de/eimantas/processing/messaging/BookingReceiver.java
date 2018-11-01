@@ -26,7 +26,7 @@ public class BookingReceiver {
 
   public void handleMessage(Object message) throws IOException {
     logger.info("Received message about created booking ID: '{}'", message);
-    bookingService.processBooking((Long) message);
+    bookingService.processBooking((String)message);
   }
 
 

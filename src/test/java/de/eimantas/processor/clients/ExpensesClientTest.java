@@ -1,13 +1,11 @@
-package de.eimantas.processor.service;
+package de.eimantas.processor.clients;
 
 import de.eimantas.processing.ProceessingBackendApplication;
-import de.eimantas.processing.services.BookingService;
+import de.eimantas.processing.clients.ExpensesClient;
 import de.eimantas.processing.utils.SecurityUtils;
-import org.hamcrest.Matchers;
 import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
@@ -16,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -24,7 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.inject.Inject;
-import java.math.BigDecimal;
 import java.nio.charset.Charset;
 import java.util.LinkedHashMap;
 
@@ -36,7 +34,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @AutoConfigureMockMvc
 @Transactional
 @ActiveProfiles("test")
-public class BookingServiceTest {
+public class ExpensesClientTest {
 
 
   private final org.slf4j.Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -50,7 +48,7 @@ public class BookingServiceTest {
   JSONObject json;
 
   @Inject
-  private BookingService bookingService;
+  private ExpensesClient expensesClient;
 
   @Autowired
   private WebApplicationContext webApplicationContext;
@@ -75,55 +73,12 @@ public class BookingServiceTest {
 
 
   @Test
-  @Ignore
-  public void testGetProjectRate() throws Exception {
-
+  public void testGetExpense() throws Exception {
     String token = SecurityUtils.getOnlyToken();
     logger.info("token: " + token);
-    JSONObject json = bookingService.getInfoFromProject("Bearer " + token, 2);
-    Assert.assertNotNull(json);
+   ResponseEntity responseEntity = expensesClient.getExpenseById("Bearer "+token, 6L);
+    Assert.assertNotNull(responseEntity);
+    logger.info("entity : " + responseEntity);
   }
-
-  @Test
-  public void testCalculateHours() throws Exception {
-
-    long minutes = bookingService.calculateHours(json);
-    Assert.assertThat(minutes, Matchers.is(230L));
-    logger.info("time was: " + minutes);
-
-  }
-
-  @Test
-  public void testCalculateWholeAmount() throws Exception {
-
-    BigDecimal rate = new BigDecimal(85);
-
-    BigDecimal amount = bookingService.calculateAmount(230, rate);
-    Assert.assertThat(amount, Matchers.is(new BigDecimal("326.60")));
-    logger.info("time was: " + amount);
-
-  }
-
-
-  @Test
-  @Ignore
-  public void testGetProject() throws Exception {
-
-    JSONObject booking = bookingService.getBookingInfo(new JSONObject());
-    Assert.assertNotNull(booking);
-    logger.info("Booking: " + booking.toString());
-  }
-
-
-  @Test
-  @Ignore
-  public void testSendProcessedMessage() throws Exception {
-    JSONObject json = new JSONObject();
-    json.put("booking_id", 21);
-    json.put("Amount", BigDecimal.TEN);
-    bookingService.sendNotification(json);
-
-  }
-
 
 }

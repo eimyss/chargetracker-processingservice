@@ -1,6 +1,5 @@
 package de.eimantas.processing.config;
 
-import de.eimantas.processing.utils.SecurityUtils;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import org.springframework.security.core.Authentication;
@@ -19,10 +18,9 @@ public class UserFeignClientInterceptor implements RequestInterceptor {
     Authentication authentication = securityContext.getAuthentication();
 
     // it automatically adds auth header with backend-services-processing user
-    //    if (authentication != null && authentication instanceof KeycloakAuthenticationToken) {
-    //    KeycloakAuthenticationToken details = (KeycloakAuthenticationToken) authentication;
-
-    template.header(AUTHORIZATION_HEADER, String.format("%s %s", BEARER_TOKEN_TYPE, SecurityUtils.getOnlyToken()));
+    // if (authentication != null && authentication instanceof KeycloakAuthenticationToken) {
+    // KeycloakAuthenticationToken details = (KeycloakAuthenticationToken) authentication;
+    // template.header(AUTHORIZATION_HEADER, String.format("%s %s", BEARER_TOKEN_TYPE, SecurityUtils.getOnlyToken()));
     //   }
   }
 }

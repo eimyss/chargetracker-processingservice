@@ -4,6 +4,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @FeignClient(value = "${feign.client.config.service.project}", configuration = BookingsClientConfig.class)
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public interface ProjectsClient {
 
   @GetMapping("/get/{id}")
-  ResponseEntity<?> getProject(@PathVariable(name = "id") long id);
+  //here should go user token too
+  ResponseEntity<?> getProject(@RequestHeader("Authorization") String token, @PathVariable(name = "id") long id);
 
 }

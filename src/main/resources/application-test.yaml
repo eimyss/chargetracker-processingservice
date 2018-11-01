@@ -35,6 +35,9 @@ feign:
   client:
     config:
       service:
-        booking: expenses-service-int
-        project: account-service-int
-        expenses: expenses-service-int
+        booking: expenses-service-ref
+        project: account-service-ref
+        expenses: expenses-service-ref
+logging:
+  level:
+    de.eimantas.processing.clients.ExpensesClient: DEBUG

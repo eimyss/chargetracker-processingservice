@@ -28,7 +28,7 @@ public class ExpensesReceiver {
   public void handleMessage(Object message) throws IOException {
 
     logger.info("Expense created notification message '{}'", message);
-   expensesProcessingService.processExpense((Long) message);
+    expensesProcessingService.processExpense((String) message);
 
   }
 
