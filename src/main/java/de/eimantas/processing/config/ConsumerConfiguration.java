@@ -60,7 +60,7 @@ public class ConsumerConfiguration {
 
   @Bean
   Binding bookingsBinding() {
-    return BindingBuilder.bind(bookingQueue()).to(eventExchange()).with("#");
+    return BindingBuilder.bind(bookingQueue()).to(eventExchange()).with("booking.created");
   }
 
   @Bean

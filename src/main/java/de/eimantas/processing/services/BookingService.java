@@ -114,7 +114,7 @@ public class BookingService {
 
   }
 
-  private void notifyFailedBooking(String message, String eMessage) {
+  public void notifyFailedBooking(String message, String eMessage) {
 
     logger.warn("Creating error transaction log entry");
     EntityTransactionError error = new EntityTransactionError();

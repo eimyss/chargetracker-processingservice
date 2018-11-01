@@ -1,6 +1,7 @@
 package de.eimantas.processor.service;
 
 import de.eimantas.processing.ProceessingBackendApplication;
+import de.eimantas.processing.repo.TransactionErrorRepository;
 import de.eimantas.processing.services.BookingService;
 import de.eimantas.processing.utils.SecurityUtils;
 import org.hamcrest.Matchers;
@@ -28,6 +29,7 @@ import java.math.BigDecimal;
 import java.nio.charset.Charset;
 import java.util.LinkedHashMap;
 
+import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 @RunWith(SpringRunner.class)
@@ -51,6 +53,9 @@ public class BookingServiceTest {
 
   @Inject
   private BookingService bookingService;
+
+  @Inject
+  private TransactionErrorRepository transactionErrorRepository;
 
   @Autowired
   private WebApplicationContext webApplicationContext;
@@ -125,5 +130,12 @@ public class BookingServiceTest {
 
   }
 
+  @Test
+  public void testCreateError() throws Exception {
+long count = transactionErrorRepository.count();
+  bookingService.notifyFailedBooking("test","test");
+    long countAfter = transactionErrorRepository.count();
+    assertThat(countAfter).isGreaterThan(count);
+  }
 
 }

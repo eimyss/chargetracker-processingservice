@@ -56,7 +56,7 @@ eureka:
 processing:
   messaging:
     orderServiceQueueName: orderServiceQueue-ref
-    bookingServiceQueueName: bookingServiceQueue-ref
+    bookingServiceQueueName: bookingCreatedServiceQueue-ref
     exchange: eventExchange
     subscriber:
-      routingKey: expenses.#
+      routingKey: expenses.created
