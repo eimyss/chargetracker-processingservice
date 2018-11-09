@@ -60,9 +60,16 @@ public class TransactionController {
       throw new BadRequestException("cannot determine type");
     }
 
+    logger.info("parsed type: " + transactionType);
+
     EntityTransaction transaction = transactionService.getByEntityId(id, transactionType, (KeycloakAuthenticationToken) principal);
-    logger.info("returning some transaction: " + transaction.toString());
-    return transaction;
+    if ( transaction != null) {
+      logger.info("returning some transaction: " + transaction.toString());
+      return transaction;
+    }
+    logger.info("entity is not found!");
+    throw new BadRequestException("Entity is not found!");
+
   }
 
 

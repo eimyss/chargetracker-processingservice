@@ -51,8 +51,9 @@ public class TransactionService {
   }
 
   public EntityTransaction getByEntityId(long id, EntityTransactionType type, KeycloakAuthenticationToken principal) {
-    logger.debug("finding by ref entity id: " + id + " and type: " + type);
-    return transactionRepository.findByRefEntityIdAndTypeAndUserId(id, type, securityService.getUserIdFromPrincipal(principal));
+    String user = securityService.getUserIdFromPrincipal(principal);
+    logger.info("finding by ref entity id: " + id + " and type: " + type + " and user: " + user);
+    return transactionRepository.findByRefEntityIdAndTypeAndUserId(id, type, user);
 
   }
 }
