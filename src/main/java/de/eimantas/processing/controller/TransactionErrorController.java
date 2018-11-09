@@ -16,7 +16,7 @@ import java.util.List;
 @RequestMapping(value = "/transaction/error")
 public class TransactionErrorController {
 
-  
+
   private final org.slf4j.Logger logger = LoggerFactory.getLogger(this.getClass());
 
   @Autowired

@@ -48,7 +48,7 @@ public class TransactionController {
 
   @GetMapping("/get/{type}/{id}")
   @CrossOrigin(origins = "*")
-  public EntityTransaction getTransactionById(Principal principal, @PathVariable String type, @PathVariable long id) throws BadRequestException {
+  public EntityTransaction getTransactionById(Principal principal, @PathVariable(name = "type") String type, @PathVariable (name = "id") long id) throws BadRequestException {
     logger.info("find transcation for id " + id + " and type: " + type);
 
 
