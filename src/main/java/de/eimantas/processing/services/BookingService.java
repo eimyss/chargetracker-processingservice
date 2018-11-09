@@ -91,15 +91,16 @@ public class BookingService {
         transaction.setRefEntityId(entityId);
         transaction.setType(EntityTransactionType.BOOKING);
         transaction.setProcessingDate(LocalDateTime.now());
+        transaction.setUserId(userId);
         transactionRepository.save(transaction);
         logger.info(" transaction saved");
       } catch (JSONException e) {
         logger.error("failed to process json object from booking message", e);
-        notifyFailedBooking(message, e.getMessage());
+        notifyFailedBooking(message, e.getMessage(), "cannot be parsed");
       }
 
     } else {
-      notifyFailedBooking(message, null);
+      notifyFailedBooking(message, null, "cannot be parsed");
     }
   }
 
@@ -114,13 +115,14 @@ public class BookingService {
 
   }
 
-  public void notifyFailedBooking(String message, String eMessage) {
+  public void notifyFailedBooking(String message, String eMessage, String userId) {
 
     logger.warn("Creating error transaction log entry");
     EntityTransactionError error = new EntityTransactionError();
     error.setMessage(message);
     error.setException(eMessage);
     error.setDate(Instant.now());
+    error.setUserId(userId);
     error.setType(EntityTransactionType.BOOKING);
     transactionErrorRepository.save(error);
 

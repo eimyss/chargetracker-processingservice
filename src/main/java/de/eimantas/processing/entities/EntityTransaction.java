@@ -3,6 +3,8 @@ package de.eimantas.processing.entities;
 
 import de.eimantas.processing.entities.types.EntityTransactionType;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,6 +14,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Data
+@NoArgsConstructor
 public class EntityTransaction {
 
   @Id
@@ -25,4 +28,6 @@ public class EntityTransaction {
   private long refEntityId;
   private long accountId;
   private LocalDateTime cancellingDate;
+  private @NonNull
+  String userId;
 }

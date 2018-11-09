@@ -22,4 +22,6 @@ public class EntityTransactionError {
   @Column
   private String exception;
   private Instant date;
+  private long refEntityId;
+  private String userId;
 }

@@ -58,11 +58,13 @@ public class ExpensesProcessingService {
         expenseId = getEntityId(expenseJson);
         BigDecimal amount = getExpenseAmount(expenseJson);
         BigDecimal netto = ProcessingHelper.calculateNetto(amount);
+        String userId = getUserId(expenseJson);
         logger.info("got brutto : " + amount + " and calculated netto: " + netto);
         EntityTransaction transaction = ProcessingHelper.createInitTransaction(EntityTransactionType.EXPENSE, expenseId);
 
         transaction.setAccountId(getExpenseAccount(expenseJson));
         transaction.setAmountBefore(amount);
+        transaction.setUserId(userId);
         transaction.setAmountAfter(netto);
         logger.info("saving transaction: " + transaction);
         EntityTransaction saved = repository.save(transaction);
@@ -105,6 +107,13 @@ public class ExpensesProcessingService {
     logger.info("account ID is: " + accountId);
     return accountId;
   }
+
+  private String getUserId(JSONObject expenseJson) throws JSONException {
+    String userId = expenseJson.getString("userId");
+    logger.info("Project User ID is: " + userId);
+    return userId;
+  }
+
 
 
   private void notifyFailedExpenseProcessing(long expenseId, String message) {

@@ -5,6 +5,7 @@ import de.eimantas.processing.entities.types.EntityTransactionType;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDateTime;
 
 public class ProcessingHelper {
 
@@ -15,6 +16,7 @@ public class ProcessingHelper {
     EntityTransaction transaction = new EntityTransaction();
     transaction.setType(type);
     transaction.setRefEntityId(entityId);
+    transaction.setProcessingDate(LocalDateTime.now());
 
     return transaction;
   }

@@ -1,6 +1,7 @@
 spring:
   application:
     name: expenses-processing-server-int
+  profiles: int, populate
   datasource:
     url: jdbc:h2:mem:db;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
     platform: h2

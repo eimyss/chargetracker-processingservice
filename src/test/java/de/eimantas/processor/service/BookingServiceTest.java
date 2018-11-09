@@ -40,6 +40,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @ActiveProfiles("test")
 public class BookingServiceTest {
 
+  private static final String TEST_USER_ID = "9a204126-12b9-4efe-9d9b-3808aba51ba3";
 
   private final org.slf4j.Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -133,7 +134,7 @@ public class BookingServiceTest {
   @Test
   public void testCreateError() throws Exception {
 long count = transactionErrorRepository.count();
-  bookingService.notifyFailedBooking("test","test");
+  bookingService.notifyFailedBooking("test","test",TEST_USER_ID);
     long countAfter = transactionErrorRepository.count();
     assertThat(countAfter).isGreaterThan(count);
   }
