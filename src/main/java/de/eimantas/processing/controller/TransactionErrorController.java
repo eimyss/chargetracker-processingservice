@@ -13,10 +13,10 @@ import java.security.Principal;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/transaction/error/")
+@RequestMapping(value = "/transaction/error")
 public class TransactionErrorController {
 
-
+  
   private final org.slf4j.Logger logger = LoggerFactory.getLogger(this.getClass());
 
   @Autowired
