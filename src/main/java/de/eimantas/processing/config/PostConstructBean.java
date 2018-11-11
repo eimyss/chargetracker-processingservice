@@ -39,7 +39,7 @@ public class PostConstructBean implements ApplicationRunner {
     transaction.setAmountBefore(BigDecimal.ZERO);
     transaction.setAmountAfter(BigDecimal.TEN);
     transaction.setAccountId(1);
-    transaction.setRefEntityId(1);
+    transaction.setRefEntityId(11);
     transaction.setType(EntityTransactionType.BOOKING);
     transaction.setProcessingDate(LocalDateTime.now());
     transaction.setUserId(TEST_USER_ID);
